@@ -6,20 +6,11 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:16:38 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/15 11:25:06 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/16 13:13:36 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-void	ft_putstr_fd(char *s, int fd)
-{
-	while (*s != '\0')
-	{
-		ft_putchar_fd(*s, fd);
-		s++;
-	}
-}
 
 int	ft_strlen(char *str)
 {
