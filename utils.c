@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:16:38 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/16 13:13:36 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/17 11:18:53 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,13 @@ int	ft_atoi(const char *str)
 		str++;
 	}
 	return ((int)nbr * sign);
+}
+
+void	ft_sleep(size_t time)
+{
+	size_t	start;
+
+	start = get_time();
+	while (get_time() < start + time)
+		usleep(100);
 }

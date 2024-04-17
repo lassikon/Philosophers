@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:46:05 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/16 15:27:07 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/17 12:21:46 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,10 @@ void	philo_eat(t_philo *philo)
 	output_msg(philo, "has taken a fork");
 	output_msg(philo, "is eating");
 	pthread_mutex_lock(&philo->eat_lock);
-	philo->eating = TRUE;
+	philo->last_meal = get_time();
 	philo->times_eaten++;
 	pthread_mutex_unlock(&philo->eat_lock);
-	pthread_mutex_lock(&philo->m->time_lock);
-	philo->last_meal = get_time();
-	pthread_mutex_unlock(&philo->m->time_lock);
-	usleep(philo->m->time_to_eat * 1000);
-	philo->eating = FALSE;
+	ft_sleep(philo->m->time_to_eat);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(philo->left_fork);
 }
@@ -61,12 +57,12 @@ void	*routine(void *ptr)
 
 	philo = (t_philo *)ptr;
 	if (philo->id % 2 == 0)
-		usleep(100);
+		ft_sleep(10);
 	while (no_deaths(philo->m))
 	{
 		philo_eat(philo);
 		output_msg(philo, "is sleeping");
-		usleep(philo->m->time_to_sleep * 1000);
+		ft_sleep(philo->m->time_to_sleep);
 		output_msg(philo, "is thinking");
 	}
 	return (ptr);

@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:04:14 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/16 15:35:51 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/17 12:23:41 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ static void	init_philos(t_main *m)
 	while (i < m->philo_count)
 	{
 		m->philos[i].id = i + 1;
-		// printf("Philosopher %d created\n", m->philos[i].id);
-		m->philos[i].eating = FALSE;
 		m->philos[i].left_fork = &m->forks[i];
 		if (i == m->philo_count - 1)
 			m->philos[i].right_fork = &m->forks[0];
@@ -53,7 +51,7 @@ static void	init_mutexes(t_main *m)
 void	init(t_main *m, int argc, char **argv)
 {
 	t_philo			philos[PHILO_LIMIT];
-	pthread_mutex_t forks[PHILO_LIMIT];
+	pthread_mutex_t	forks[PHILO_LIMIT];
 
 	m->philo_count = ft_atoi(argv[1]);
 	m->time_to_die = ft_atoi(argv[2]);
@@ -66,7 +64,6 @@ void	init(t_main *m, int argc, char **argv)
 	m->forks = forks;
 	init_mutexes(m);
 	m->philos = philos;
-	m->error = FALSE;
 	m->dead_philo = FALSE;
 	m->start_time = get_time();
 	init_philos(m);

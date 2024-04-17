@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:42:07 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/16 15:08:11 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/17 12:10:37 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	threads(t_main *m)
 {
 	int	i;
 
+	if (pthread_create(&m->overseer, NULL, &overseer, m) != 0)
+		destroy_mutexes(m, THREAD_CREATE_FAIL);
 	i = 0;
 	while (i < m->philo_count)
 	{
@@ -47,8 +49,6 @@ void	threads(t_main *m)
 			destroy_mutexes(m, THREAD_CREATE_FAIL);
 		i++;
 	}
-	if (pthread_create(&m->overseer, NULL, &overseer, m) != 0)
-		destroy_mutexes(m, THREAD_CREATE_FAIL);
 	if (pthread_join(m->overseer, NULL) != 0)
 		destroy_mutexes(m, THREAD_JOIN_FAIL);
 	i = 0;

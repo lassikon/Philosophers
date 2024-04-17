@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:07:46 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/16 15:06:49 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/17 12:14:47 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 # define TRUE 1
 # define FALSE 0
-# define PHILO_LIMIT 200
+# define PHILO_LIMIT 250
 # define INVALID_PHILO_COUNT "Invalid number of philosophers"
 # define INVALID_TIME_TO_DIE "Invalid time to die"
 # define INVALID_TIME_TO_EAT "Invalid time to eat"
@@ -30,16 +30,14 @@
 # define THREAD_CREATE_FAIL "Thread creation failed"
 # define THREAD_JOIN_FAIL "Thread join failed"
 
-
 typedef int	t_bool;
 
-struct s_main;
+struct		s_main;
 
 typedef struct s_philo
 {
 	struct s_main	*m;
 	int				id;
-	t_bool			eating;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
 	pthread_mutex_t	eat_lock;
@@ -53,7 +51,6 @@ typedef struct s_main
 	t_philo			*philos;
 	pthread_t		overseer;
 	pthread_mutex_t	*forks;
-	t_bool			error;
 	t_bool			dead_philo;
 	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	output_lock;
@@ -78,5 +75,6 @@ int		destroy_mutexes(t_main *m, char *msg);
 // UTILS
 int		ft_atoi(const char *str);
 int		ft_strlen(char *str);
+void	ft_sleep(size_t time);
 
 #endif
