@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:16:38 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/17 11:18:53 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/17 16:25:56 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,20 @@ int	ft_atoi(const char *str)
 	return ((int)nbr * sign);
 }
 
+size_t	get_time(void)
+{
+	struct timeval	current_time;
+
+	if (gettimeofday(&current_time, NULL) == -1)
+		return (0); // Add error handling
+	return (current_time.tv_sec * 1000 + current_time.tv_usec / 1000);
+}
+
 void	ft_sleep(size_t time)
 {
 	size_t	start;
 
 	start = get_time();
 	while (get_time() < start + time)
-		usleep(100);
+		usleep(500);
 }

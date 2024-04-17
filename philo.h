@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:07:46 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/17 12:14:47 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/17 16:41:19 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,19 @@
 # include <stdio.h>
 # include <sys/time.h>
 
+# define PHILO_LIMIT 250
+
+# define PHILO_COUNT_ERR "Error: Invalid number of philosophers\n"
+# define TIME_TO_DIE_ERR "Error: Invalid time to die\n"
+# define TIME_TO_EAT_ERR "Error: Invalid time to eat\n"
+# define TIME_TO_SLEEP_ERR "Error: Invalid time to sleep\n"
+# define TIMES_TO_EAT_ERR "Error: Invalid number of times to eat\n"
+# define ARG_COUNT_ERR "Error: Invalid number of arguments\n"
+# define THREAD_CREATE_ERR "Error: Thread creation failed\n"
+# define THREAD_JOIN_ERR "Error: Thread join failed\n"
+
 # define TRUE 1
 # define FALSE 0
-# define PHILO_LIMIT 250
-# define INVALID_PHILO_COUNT "Invalid number of philosophers"
-# define INVALID_TIME_TO_DIE "Invalid time to die"
-# define INVALID_TIME_TO_EAT "Invalid time to eat"
-# define INVALID_TIME_TO_SLEEP " Invalid time to sleep"
-# define INVALID_TIMES_TO_EAT "Invalid number of times to eat"
-# define INVALID_ARGS "Invalid number of arguments"
-# define THREAD_CREATE_FAIL "Thread creation failed"
-# define THREAD_JOIN_FAIL "Thread join failed"
 
 typedef int	t_bool;
 
@@ -56,6 +58,7 @@ typedef struct s_main
 	pthread_mutex_t	output_lock;
 	pthread_mutex_t	time_lock;
 	int				philo_count;
+	int				threads_created;
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
@@ -63,14 +66,12 @@ typedef struct s_main
 	size_t			start_time;
 }	t_main;
 
-void	init(t_main *m, int argc, char **argv);
-int		invalid_args(int argc, char **argv);
+int		init(t_main *m, int argc, char **argv);
 void	*routine(void *ptr);
 void	*overseer(void *ptr);
-void	error_exit(char *msg);
 size_t	get_time(void);
-void	threads(t_main *m);
-int		destroy_mutexes(t_main *m, char *msg);
+int		threads(t_main *m);
+// int		destroy_mutexes(t_main *m, char *msg);
 
 // UTILS
 int		ft_atoi(const char *str);

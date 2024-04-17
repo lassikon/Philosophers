@@ -6,11 +6,42 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:04:14 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/17 12:23:41 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/17 16:02:39 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static int	not_digit(char *arg)
+{
+	int	i;
+
+	i = 0;
+	while (arg[i])
+	{
+		if (arg[i] < '0' || arg[i] > '9')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+static int	invalid_args(int argc, char **argv)
+{
+	if (not_digit(argv[1]) || ft_atoi(argv[1]) < 1
+		|| ft_atoi(argv[1]) > PHILO_LIMIT)
+		return (write(2, PHILO_COUNT_ERR, ft_strlen(PHILO_COUNT_ERR)));
+	if (not_digit(argv[2]) || ft_atoi(argv[2]) < 1)
+		return (write(2, TIME_TO_DIE_ERR, ft_strlen(TIME_TO_DIE_ERR)));
+	if (not_digit(argv[3]) || ft_atoi(argv[3]) < 1)
+		return (write(2, TIME_TO_EAT_ERR, ft_strlen(TIME_TO_EAT_ERR)));
+	if (not_digit(argv[4]) || ft_atoi(argv[4]) < 1)
+		return (write(2, TIME_TO_SLEEP_ERR, ft_strlen(TIME_TO_SLEEP_ERR)));
+	if (argc == 6)
+		if (not_digit(argv[5]) || ft_atoi(argv[5]) < 0)
+			return (write(2, TIMES_TO_EAT_ERR, ft_strlen(TIMES_TO_EAT_ERR)));
+	return (0);
+}
 
 static void	init_philos(t_main *m)
 {
@@ -48,11 +79,13 @@ static void	init_mutexes(t_main *m)
 	pthread_mutex_init(&m->time_lock, NULL);
 }
 
-void	init(t_main *m, int argc, char **argv)
+int	init(t_main *m, int argc, char **argv)
 {
 	t_philo			philos[PHILO_LIMIT];
 	pthread_mutex_t	forks[PHILO_LIMIT];
 
+	if (invalid_args(argc, argv))
+		return (1);
 	m->philo_count = ft_atoi(argv[1]);
 	m->time_to_die = ft_atoi(argv[2]);
 	m->time_to_eat = ft_atoi(argv[3]);
@@ -65,6 +98,8 @@ void	init(t_main *m, int argc, char **argv)
 	init_mutexes(m);
 	m->philos = philos;
 	m->dead_philo = FALSE;
+	m->threads_created = 0;
 	m->start_time = get_time();
 	init_philos(m);
+	return (0);
 }
