@@ -1,26 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/15 11:07:24 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/17 15:52:13 by lkonttin         ###   ########.fr       */
+/*   Created: 2024/04/18 11:43:53 by lkonttin          #+#    #+#             */
+/*   Updated: 2024/04/18 15:15:30 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
+
+void	kill_philos(t_main *m)
+{
+	int	i;
+
+	i = 0;
+	while (i < m->philo_count)
+	{
+		kill(m->pid[i], SIGTERM);
+		i++;
+	}
+}
 
 int	main(int argc, char **argv)
 {
 	t_main	m;
 
-	if (argc < 5 || argc > 6)
-		return (write(2, ARG_COUNT_ERR, ft_strlen(ARG_COUNT_ERR)));
-	if (init(&m, argc, argv) != 0)
+	if (invalid_args(argc, argv))
 		return (1);
-	if (threads(&m) != 0)
-		return (1);
+	init(&m, argc, argv);
+	forks(&m);
+	ft_sleep(10);
+	sem_wait(m.finished);
+	kill_philos(&m);
+	sem_close(m.forks);
+	sem_close(m.output);
+	sem_close(m.finished);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:04:14 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/17 16:02:39 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/18 12:00:53 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@ static int	not_digit(char *arg)
 	return (0);
 }
 
-static int	invalid_args(int argc, char **argv)
+int	invalid_args(int argc, char **argv)
 {
+	if (argc < 5 || argc > 6)
+		return (write(2, ARG_COUNT_ERR, ft_strlen(ARG_COUNT_ERR)));
 	if (not_digit(argv[1]) || ft_atoi(argv[1]) < 1
 		|| ft_atoi(argv[1]) > PHILO_LIMIT)
 		return (write(2, PHILO_COUNT_ERR, ft_strlen(PHILO_COUNT_ERR)));
@@ -43,7 +45,7 @@ static int	invalid_args(int argc, char **argv)
 	return (0);
 }
 
-static void	init_philos(t_main *m)
+static int	init_philos(t_main *m)
 {
 	int	i;
 
@@ -60,8 +62,11 @@ static void	init_philos(t_main *m)
 		m->philos[i].m = m;
 		pthread_mutex_init(&m->philos[i].eat_lock, NULL);
 		m->philos[i].last_meal = get_time();
+		if (m->philos[i].last_meal == 0)
+			return (1);
 		i++;
 	}
+	return (0);
 }
 
 static void	init_mutexes(t_main *m)
@@ -84,8 +89,6 @@ int	init(t_main *m, int argc, char **argv)
 	t_philo			philos[PHILO_LIMIT];
 	pthread_mutex_t	forks[PHILO_LIMIT];
 
-	if (invalid_args(argc, argv))
-		return (1);
 	m->philo_count = ft_atoi(argv[1]);
 	m->time_to_die = ft_atoi(argv[2]);
 	m->time_to_eat = ft_atoi(argv[3]);
@@ -100,6 +103,9 @@ int	init(t_main *m, int argc, char **argv)
 	m->dead_philo = FALSE;
 	m->threads_created = 0;
 	m->start_time = get_time();
-	init_philos(m);
+	if (m->start_time == 0)
+		return (1);
+	if (init_philos(m) == 1)
+		return (1);
 	return (0);
 }

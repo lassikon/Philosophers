@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:16:38 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/17 16:25:56 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/18 10:57:33 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ size_t	get_time(void)
 	struct timeval	current_time;
 
 	if (gettimeofday(&current_time, NULL) == -1)
-		return (0); // Add error handling
+	{
+		write(2, GET_TIME_ERR, ft_strlen(GET_TIME_ERR));
+		return (0);
+	}
 	return (current_time.tv_sec * 1000 + current_time.tv_usec / 1000);
 }
 

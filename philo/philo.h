@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:07:46 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/17 16:41:19 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/18 12:01:46 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # define TIME_TO_SLEEP_ERR "Error: Invalid time to sleep\n"
 # define TIMES_TO_EAT_ERR "Error: Invalid number of times to eat\n"
 # define ARG_COUNT_ERR "Error: Invalid number of arguments\n"
+# define GET_TIME_ERR "Error: gettimeoftheday failed\n"
 # define THREAD_CREATE_ERR "Error: Thread creation failed\n"
 # define THREAD_JOIN_ERR "Error: Thread join failed\n"
 
@@ -67,13 +68,11 @@ typedef struct s_main
 }	t_main;
 
 int		init(t_main *m, int argc, char **argv);
+int		invalid_args(int argc, char **argv);
 void	*routine(void *ptr);
 void	*overseer(void *ptr);
 size_t	get_time(void);
 int		threads(t_main *m);
-// int		destroy_mutexes(t_main *m, char *msg);
-
-// UTILS
 int		ft_atoi(const char *str);
 int		ft_strlen(char *str);
 void	ft_sleep(size_t time);
