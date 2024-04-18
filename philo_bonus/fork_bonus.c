@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:18:03 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/18 15:16:35 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:48:40 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	check_death(t_main *m, t_philo *philo)
 {
 	if (get_time() - philo->last_meal > m->time_to_die)
 	{
-		output_msg(m, philo, "died");
+		sem_wait(m->output);
+		printf("%zu %d died\n", get_time() - m->start_time, philo->id);
 		sem_post(m->finished);
 		exit(1);
 	}
