@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:43:53 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/18 15:22:00 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/18 15:57:27 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	kill_philos(t_main *m)
 	i = 0;
 	while (i < m->philo_count)
 	{
-		kill(m->pid[i], SIGKILL);
+		kill(m->pid[i], SIGTERM);
 		i++;
 	}
 }
