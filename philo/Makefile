@@ -2,7 +2,6 @@ NAME		:= philo
 CC			:= cc
 CFLAGS		:= -Wall -Wextra -Werror #-g -fsanitize=thread -g -static-libsan
 
-LIBFT	:= $(LIBFT_DIR)/libft.a
 SRCS	:= 	main.c \
 			utils.c \
 			init.c \
