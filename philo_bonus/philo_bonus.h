@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:07:12 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/18 14:17:17 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:39:42 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,15 @@ typedef struct s_philo
 {
 	int		id;
 	size_t	last_meal;
-	int		times_eaten;
+	size_t	times_eaten;
 }	t_philo;
 
 typedef struct s_main
 {
 	int		pid[PHILO_LIMIT];
 	int		philo_count;
+	int		death_monitor_pid;
+	int		eat_monitor_pid;
 	size_t	time_to_die;
 	size_t	time_to_eat;
 	size_t	time_to_sleep;
@@ -52,12 +54,15 @@ typedef struct s_main
 	sem_t	*forks;
 	sem_t	*output;
 	sem_t	*finished;
+	sem_t	*dead;
 }	t_main;
 
 void	init(t_main *m, int argc, char **argv);
-void	forks(t_main *m);
+void	fork_philos(t_main *m);
+void	fork_monitors(t_main *m);
+void	wait_monitors(t_main *m);
 int		invalid_args(int argc, char **argv);
-int		ft_atoi(const char *str);
+int		get_number(const char *str);
 size_t	get_time(void);
 void	ft_sleep(size_t time);
 int		ft_strlen(char *str);

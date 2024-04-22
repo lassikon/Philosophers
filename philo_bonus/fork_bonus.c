@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:18:03 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/18 15:48:40 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:24:56 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_death(t_main *m, t_philo *philo)
 	{
 		sem_wait(m->output);
 		printf("%zu %d died\n", get_time() - m->start_time, philo->id);
-		sem_post(m->finished);
+		sem_post(m->dead);
 		exit(1);
 	}
 }
@@ -45,14 +45,17 @@ void	eat(t_main *m, t_philo *philo)
 	philo->last_meal = get_time();
 	philo->times_eaten++;
 	ft_sleep(m->time_to_eat);
+	if (m->times_to_eat != 0 && philo->times_eaten >= m->times_to_eat)
+		sem_post(m->finished);
 	sem_post(m->forks);
 	sem_post(m->forks);
 }
 
-void	child(t_main *m, int id)
+void	philo_process(t_main *m, int id)
 {
 	t_philo	philo;
 
+	sem_wait(m->dead);
 	sem_wait(m->finished);
 	philo.id = id + 1;
 	philo.last_meal = get_time();
@@ -68,7 +71,7 @@ void	child(t_main *m, int id)
 	exit(0);
 }
 
-void	forks(t_main *m)
+void	fork_philos(t_main *m)
 {
 	int	i;
 
@@ -77,7 +80,7 @@ void	forks(t_main *m)
 	{
 		m->pid[i] = fork();
 		if (m->pid[i] == 0)
-			child(m, i);
+			philo_process(m, i);
 		else if (m->pid[i] < 0)
 		{
 			write(2, FORK_ERR, ft_strlen(FORK_ERR));
