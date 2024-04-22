@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:04:14 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/22 13:30:49 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/22 20:25:46 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static int	init_philos(t_main *m)
 			m->philos[i].right_fork = &m->forks[i + 1];
 		m->philos[i].times_eaten = 0;
 		m->philos[i].m = m;
-		pthread_mutex_init(&m->philos[i].eat_lock, NULL);
 		m->philos[i].last_meal = get_time();
 		if (m->philos[i].last_meal == 0)
 			return (1);
@@ -77,6 +76,7 @@ static void	init_mutexes(t_main *m)
 	while (i < m->philo_count)
 	{
 		pthread_mutex_init(&m->forks[i], NULL);
+		pthread_mutex_init(&m->philos[i].eat_lock, NULL);
 		i++;
 	}
 	pthread_mutex_init(&m->dead_lock, NULL);
@@ -86,9 +86,6 @@ static void	init_mutexes(t_main *m)
 
 int	init(t_main *m, int argc, char **argv)
 {
-	t_philo			philos[PHILO_LIMIT];
-	pthread_mutex_t	forks[PHILO_LIMIT];
-
 	m->philo_count = get_number(argv[1]);
 	m->time_to_die = get_number(argv[2]);
 	m->time_to_eat = get_number(argv[3]);
@@ -97,11 +94,9 @@ int	init(t_main *m, int argc, char **argv)
 		m->times_to_eat = get_number(argv[5]);
 	else
 		m->times_to_eat = 0;
-	m->forks = forks;
-	init_mutexes(m);
-	m->philos = philos;
 	m->dead_philo = FALSE;
 	m->threads_created = 0;
+	init_mutexes(m);
 	m->start_time = get_time();
 	if (m->start_time == 0)
 		return (1);

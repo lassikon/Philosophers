@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:48:56 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/17 12:22:05 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/22 19:42:48 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ void	*overseer(void *ptr)
 {
 	t_main	*m;
 
-	m = (t_main *)ptr;
 	ft_sleep(10);
+	m = (t_main *)ptr;
 	while (1)
 	{
 		if (find_dead_philo(m) || all_done_eating(m))

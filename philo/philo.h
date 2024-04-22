@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:07:46 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/22 13:37:59 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/22 20:28:55 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <stdio.h>
 # include <sys/time.h>
 
-# define PHILO_LIMIT 250
+# define PHILO_LIMIT 200
 
 # define PHILO_COUNT_ERR "Error: Invalid number of philosophers\n"
 # define TIME_TO_DIE_ERR "Error: Invalid time to die\n"
