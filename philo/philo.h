@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:07:46 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/18 12:01:46 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:37:59 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct s_philo
 	pthread_mutex_t	eat_lock;
 	pthread_t		thread;
 	size_t			last_meal;
-	int				times_eaten;
+	size_t			times_eaten;
 }	t_philo;
 
 typedef struct s_main
@@ -63,7 +63,7 @@ typedef struct s_main
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
-	int				times_to_eat;
+	size_t			times_to_eat;
 	size_t			start_time;
 }	t_main;
 
@@ -73,7 +73,7 @@ void	*routine(void *ptr);
 void	*overseer(void *ptr);
 size_t	get_time(void);
 int		threads(t_main *m);
-int		ft_atoi(const char *str);
+int		get_number(const char *str);
 int		ft_strlen(char *str);
 void	ft_sleep(size_t time);
 

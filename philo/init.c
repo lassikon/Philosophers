@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:04:14 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/18 12:00:53 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:30:49 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,17 @@ int	invalid_args(int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
 		return (write(2, ARG_COUNT_ERR, ft_strlen(ARG_COUNT_ERR)));
-	if (not_digit(argv[1]) || ft_atoi(argv[1]) < 1
-		|| ft_atoi(argv[1]) > PHILO_LIMIT)
+	if (not_digit(argv[1]) || get_number(argv[1]) < 1
+		|| get_number(argv[1]) > PHILO_LIMIT)
 		return (write(2, PHILO_COUNT_ERR, ft_strlen(PHILO_COUNT_ERR)));
-	if (not_digit(argv[2]) || ft_atoi(argv[2]) < 1)
+	if (not_digit(argv[2]) || get_number(argv[2]) < 1)
 		return (write(2, TIME_TO_DIE_ERR, ft_strlen(TIME_TO_DIE_ERR)));
-	if (not_digit(argv[3]) || ft_atoi(argv[3]) < 1)
+	if (not_digit(argv[3]) || get_number(argv[3]) < 1)
 		return (write(2, TIME_TO_EAT_ERR, ft_strlen(TIME_TO_EAT_ERR)));
-	if (not_digit(argv[4]) || ft_atoi(argv[4]) < 1)
+	if (not_digit(argv[4]) || get_number(argv[4]) < 1)
 		return (write(2, TIME_TO_SLEEP_ERR, ft_strlen(TIME_TO_SLEEP_ERR)));
 	if (argc == 6)
-		if (not_digit(argv[5]) || ft_atoi(argv[5]) < 0)
+		if (not_digit(argv[5]) || get_number(argv[5]) < 0)
 			return (write(2, TIMES_TO_EAT_ERR, ft_strlen(TIMES_TO_EAT_ERR)));
 	return (0);
 }
@@ -89,12 +89,12 @@ int	init(t_main *m, int argc, char **argv)
 	t_philo			philos[PHILO_LIMIT];
 	pthread_mutex_t	forks[PHILO_LIMIT];
 
-	m->philo_count = ft_atoi(argv[1]);
-	m->time_to_die = ft_atoi(argv[2]);
-	m->time_to_eat = ft_atoi(argv[3]);
-	m->time_to_sleep = ft_atoi(argv[4]);
+	m->philo_count = get_number(argv[1]);
+	m->time_to_die = get_number(argv[2]);
+	m->time_to_eat = get_number(argv[3]);
+	m->time_to_sleep = get_number(argv[4]);
 	if (argc == 6)
-		m->times_to_eat = ft_atoi(argv[5]);
+		m->times_to_eat = get_number(argv[5]);
 	else
 		m->times_to_eat = 0;
 	m->forks = forks;
