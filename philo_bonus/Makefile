@@ -2,11 +2,11 @@ NAME		:= philo_bonus
 CC			:= cc
 CFLAGS		:= -Wall -Wextra -Werror
 
-LIBFT	:= $(LIBFT_DIR)/libft.a
 SRCS	:= 	main_bonus.c \
 			utils_bonus.c \
 			init_bonus.c \
 			fork_bonus.c \
+			monitor_bonus.c \
 
 OBJS	:= ${SRCS:.c=.o}
 
