@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:46:05 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/22 20:46:23 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/22 22:13:40 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,11 @@ void	*routine(void *ptr)
 		if (deaths(philo->m))
 			break ;
 		output_msg(philo, "is sleeping");
-		ft_sleep(philo->m->time_to_sleep);
+		if (philo->m->time_to_sleep + philo->m->time_to_eat
+			>= philo->m->time_to_die)
+			ft_sleep(philo->m->time_to_die - philo->m->time_to_eat);
+		else
+			ft_sleep(philo->m->time_to_sleep);
 		if (deaths(philo->m))
 			break ;
 		output_msg(philo, "is thinking");
