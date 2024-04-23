@@ -1,6 +1,6 @@
 NAME		:= philo
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror #-fsanitize=thread -g -static-libasan
+CFLAGS		:= -Wall -Wextra -Werror #-fsanitize=thread -g -static-libsan
 
 SRCS	:= 	main.c \
 			utils.c \
