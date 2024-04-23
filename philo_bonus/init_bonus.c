@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:44:48 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/22 13:44:30 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/23 14:18:29 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,15 @@ static void	open_semaphores(t_main *m)
 	sem_unlink("output");
 	sem_unlink("finished");
 	sem_unlink("dead");
+	sem_unlink("eat");
 	m->forks = sem_open("forks", O_CREAT, 0600, m->philo_count);
 	m->output = sem_open("output", O_CREAT, 0600, 1);
 	m->finished = sem_open("finished", O_CREAT, 0600, m->philo_count);
 	m->dead = sem_open("dead", O_CREAT, 0600, m->philo_count);
+	m->eat = sem_open("eat", O_CREAT, 0600, 1);
 	if (m->forks == SEM_FAILED || m->output == SEM_FAILED
-		|| m->finished == SEM_FAILED || m->dead == SEM_FAILED)
+		|| m->finished == SEM_FAILED || m->dead == SEM_FAILED
+		|| m->eat == SEM_FAILED)
 	{
 		write(2, SEM_ERR, ft_strlen(SEM_ERR));
 		exit(1);

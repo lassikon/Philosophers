@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:43:53 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/22 12:04:05 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/23 14:18:56 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ int	main(int argc, char **argv)
 	sem_close(m.output);
 	sem_close(m.finished);
 	sem_close(m.dead);
+	sem_close(m.eat);
 	return (0);
 }
