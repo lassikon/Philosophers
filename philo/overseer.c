@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 15:48:56 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/22 19:42:48 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/23 15:04:24 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,24 @@ static int	find_dead_philo(t_main *m)
 static int	all_done_eating(t_main *m)
 {
 	int	i;
+	int	done;
 
+	done = 0;
 	i = 0;
 	while (i < m->philo_count)
 	{
 		pthread_mutex_lock(&m->philos[i].eat_lock);
 		if (m->times_to_eat > 0 && m->philos[i].times_eaten >= m->times_to_eat)
-		{
-			pthread_mutex_lock(&m->dead_lock);
-			m->dead_philo = TRUE;
-			pthread_mutex_unlock(&m->dead_lock);
-			pthread_mutex_unlock(&m->philos[i].eat_lock);
-			return (1);
-		}
+			done++;
 		pthread_mutex_unlock(&m->philos[i].eat_lock);
 		i++;
+	}
+	if (done == m->philo_count)
+	{
+		pthread_mutex_lock(&m->dead_lock);
+		m->dead_philo = TRUE;
+		pthread_mutex_unlock(&m->dead_lock);
+		return (1);
 	}
 	return (0);
 }
