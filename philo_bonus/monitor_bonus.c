@@ -6,32 +6,30 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:43:10 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/22 12:19:40 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/24 11:47:38 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	kill_philos(t_main *m)
+void	kill_philos(t_main *m, int i)
 {
-	int	i;
-
-	i = 0;
-	while (i < m->philo_count)
+	while (i >= 0)
 	{
 		kill(m->pid[i], SIGTERM);
-		i++;
+		waitpid(m->pid[i], NULL, 0);
+		i--;
 	}
 }
 
-void	death_monitor(t_main *m)
+static void	death_monitor(t_main *m)
 {
 	sem_wait(m->dead);
-	kill_philos(m);
+	kill_philos(m, m->philo_count - 1);
 	exit(1);
 }
 
-void	eat_monitor(t_main *m)
+static void	eat_monitor(t_main *m)
 {
 	int	eaten;
 
@@ -41,7 +39,7 @@ void	eat_monitor(t_main *m)
 		sem_wait(m->finished);
 		eaten++;
 	}
-	kill_philos(m);
+	kill_philos(m, m->philo_count - 1);
 	exit(0);
 }
 
@@ -50,6 +48,8 @@ void	fork_monitors(t_main *m)
 	m->death_monitor_pid = fork();
 	if (m->death_monitor_pid == -1)
 	{
+		kill_philos(m, m->philo_count - 1);
+		close_semaphores(m);
 		write(2, FORK_ERR, ft_strlen(FORK_ERR));
 		exit(1);
 	}
@@ -58,6 +58,10 @@ void	fork_monitors(t_main *m)
 	m->eat_monitor_pid = fork();
 	if (m->eat_monitor_pid == -1)
 	{
+		kill_philos(m, m->philo_count - 1);
+		kill(m->death_monitor_pid, SIGTERM);
+		waitpid(m->death_monitor_pid, NULL, 0);
+		close_semaphores(m);
 		write(2, FORK_ERR, ft_strlen(FORK_ERR));
 		exit(1);
 	}
@@ -75,12 +79,14 @@ void	wait_monitors(t_main *m)
 		if (finished_pid == m->eat_monitor_pid)
 		{
 			kill(m->death_monitor_pid, SIGTERM);
+			waitpid(m->death_monitor_pid, NULL, 0);
 			break ;
 		}
 		finished_pid = waitpid(m->death_monitor_pid, NULL, WNOHANG);
 		if (finished_pid == m->death_monitor_pid)
 		{
 			kill(m->eat_monitor_pid, SIGTERM);
+			waitpid(m->eat_monitor_pid, NULL, 0);
 			break ;
 		}
 	}

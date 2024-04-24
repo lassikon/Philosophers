@@ -1,6 +1,6 @@
 NAME		:= philo_bonus
 CC			:= cc
-CFLAGS		:= -Wall -Wextra -Werror
+CFLAGS		:= -Wall -Wextra -Werror #-fsanitize=thread -g -static-libsan
 
 SRCS	:= 	main_bonus.c \
 			utils_bonus.c \

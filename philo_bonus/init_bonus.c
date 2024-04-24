@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:44:48 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/23 14:18:29 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:00:50 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ static void	open_semaphores(t_main *m)
 		|| m->eat == SEM_FAILED)
 	{
 		write(2, SEM_ERR, ft_strlen(SEM_ERR));
+		close_semaphores(m);
 		exit(1);
 	}
 }
@@ -74,6 +75,11 @@ void	init(t_main *m, int argc, char **argv)
 		m->times_to_eat = get_number(argv[5]);
 	else
 		m->times_to_eat = 0;
+	m->forks = NULL;
+	m->output = NULL;
+	m->finished = NULL;
+	m->dead = NULL;
+	m->eat = NULL;
 	open_semaphores(m);
 	m->start_time = get_time();
 	if (m->start_time == 0)

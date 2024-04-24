@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:07:12 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/23 14:31:40 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/24 11:46:24 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ void	init(t_main *m, int argc, char **argv);
 void	fork_philos(t_main *m);
 void	fork_monitors(t_main *m);
 void	wait_monitors(t_main *m);
+void	close_semaphores(t_main *m);
+void	kill_philos(t_main *m, int i);
 int		invalid_args(int argc, char **argv);
 int		get_number(const char *str);
 size_t	get_time(void);

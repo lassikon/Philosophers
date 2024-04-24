@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:18:03 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/23 14:49:51 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/24 12:12:34 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,8 @@ void	fork_philos(t_main *m)
 			philo_process(m, i);
 		else if (m->pid[i] < 0)
 		{
+			kill_philos(m, i - 1);
+			close_semaphores(m);
 			write(2, FORK_ERR, ft_strlen(FORK_ERR));
 			exit(1);
 		}
