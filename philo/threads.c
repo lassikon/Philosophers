@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 13:42:07 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/22 20:14:04 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:04:46 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int	destroy_mutexes(t_main *m, char *msg)
 	}
 	pthread_mutex_destroy(&m->dead_lock);
 	pthread_mutex_destroy(&m->output_lock);
-	pthread_mutex_destroy(&m->time_lock);
 	if (msg)
 		write(2, msg, ft_strlen(msg));
 	return (1);
@@ -33,10 +32,10 @@ static int	destroy_mutexes(t_main *m, char *msg)
 
 static int	thread_creation_fail(t_main *m)
 {
-	write(2, THREAD_CREATE_ERR, ft_strlen(THREAD_CREATE_ERR));
 	pthread_mutex_lock(&m->dead_lock);
 	m->dead_philo = TRUE;
 	pthread_mutex_unlock(&m->dead_lock);
+	write(2, THREAD_CREATE_ERR, ft_strlen(THREAD_CREATE_ERR));
 	if (pthread_join(m->overseer, NULL) != 0)
 		return (destroy_mutexes(m, THREAD_JOIN_ERR));
 	while (m->threads_created > 0)

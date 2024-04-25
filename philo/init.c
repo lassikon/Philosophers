@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:04:14 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/22 20:25:46 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:04:39 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ static void	init_mutexes(t_main *m)
 	}
 	pthread_mutex_init(&m->dead_lock, NULL);
 	pthread_mutex_init(&m->output_lock, NULL);
-	pthread_mutex_init(&m->time_lock, NULL);
 }
 
 int	init(t_main *m, int argc, char **argv)

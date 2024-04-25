@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 11:07:46 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/22 20:28:55 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/25 11:04:21 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ typedef struct s_main
 	t_bool			dead_philo;
 	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	output_lock;
-	pthread_mutex_t	time_lock;
 	int				philo_count;
 	int				threads_created;
 	size_t			time_to_die;
