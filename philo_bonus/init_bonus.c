@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:44:48 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/24 12:00:50 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:13:11 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	init(t_main *m, int argc, char **argv)
 	if (m->start_time == 0)
 	{
 		write(2, GET_TIME_ERR, ft_strlen(GET_TIME_ERR));
+		close_semaphores(m);
 		exit(1);
 	}
 }

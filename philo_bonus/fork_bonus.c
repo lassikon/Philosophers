@@ -6,7 +6,7 @@
 /*   By: lkonttin <lkonttin@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:18:03 by lkonttin          #+#    #+#             */
-/*   Updated: 2024/04/24 12:12:34 by lkonttin         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:27:43 by lkonttin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	eat(t_main *m, t_philo *philo)
 	sem_post(m->forks);
 }
 
-void	*philo_monitor(void *ptr)
+static void	*philo_monitor(void *ptr)
 {
 	size_t	time;
 	t_philo	*philo;
@@ -59,7 +59,6 @@ void	*philo_monitor(void *ptr)
 			break ;
 		}
 		sem_post(philo->m->eat);
-		ft_sleep(1);
 	}
 	return (NULL);
 }
@@ -103,9 +102,10 @@ void	fork_philos(t_main *m)
 			philo_process(m, i);
 		else if (m->pid[i] < 0)
 		{
+			sem_wait(m->output);
+			write(2, FORK_ERR, ft_strlen(FORK_ERR));
 			kill_philos(m, i - 1);
 			close_semaphores(m);
-			write(2, FORK_ERR, ft_strlen(FORK_ERR));
 			exit(1);
 		}
 		i++;
